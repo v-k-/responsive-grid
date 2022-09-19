@@ -14,9 +14,11 @@ class Grid {
         this.left_margin = margin_width;
         this.margin_height = margin_height;
         this.center;
-        this.points = [];
+        this.base_points = [];
         this.w_slices = [];
         this.h_slices = [];
+        this.made_points = []
+        this.ratio;
 
     }
 
@@ -29,56 +31,46 @@ class Grid {
     //
     // P2                 P3
     // // // // // // // // 
-    calc_points() {
-
-
-
+    calc_grid() {
         let right_margin = width - this.left_margin;
         let bottom_margin = height - this.margin_height;
-
-
         const p0 = createVector(this.left_margin, this.margin_height);
         const p1 = createVector(right_margin, this.margin_height);
         const p2 = createVector(this.left_margin, bottom_margin);
         const p3 = createVector(right_margin, bottom_margin);
         const center = createVector(p2.x / 2 + p3.x / 2, p1.y / 2 + p3.y / 2);
-        this.points = [p0, p1, p2, p3];
+        this.base_points = [p0, p1, p2, p3];
         this.center = center;
-
-        this.make_w_slices(24);
-        this.make_h_slices(24);
-
-
-
-
+        this.make_w_slices(this.coll_numb);
+        this.make_h_slices(this.row_numb);
 
     }
 
     make_w_slices(n) {
-        const coll_width = (this.points[1].x - this.points[0].x) / n;
-
-
-        let acc = this.points[0].x;
-
+        const coll_width = (this.base_points[1].x - this.base_points[0].x) / n;
+        let acc = this.base_points[0].x;
         for (let i = 0; i < n; i++) {
-            this.w_slices[i] = createVector(acc, this.points[0].y);
+            this.w_slices[i] = createVector(acc, this.base_points[0].y);
             acc += coll_width;
         }
+        return coll_width
 
     }
 
     make_h_slices(n) {
-        const row_width = (this.points[2].y - this.points[0].y) / n;
+        const row_width = (this.base_points[2].y - this.base_points[0].y) / n;
 
 
-        let acc = this.points[0].y;
+        let acc = this.base_points[0].y;
 
         for (let i = 0; i < n; i++) {
-            this.h_slices[i] = createVector(this.points[0].x, acc);
+            this.h_slices[i] = createVector(this.base_points[0].x, acc);
             acc += row_width;
         }
 
     }
+
+    make_Gpoint(){}
 
 
     make_row() {}
@@ -89,35 +81,35 @@ class Grid {
         noFill();
 
         //lines of margins and diagonals
-        const p0 = this.points[0];
-        const p1 = this.points[1];
-        const p2 = this.points[2];
-        const p3 = this.points[3];
+        const p0 = this.base_points[0];
+        const p1 = this.base_points[1];
+        const p2 = this.base_points[2];
+        const p3 = this.base_points[3];
 
-        pvline(p0, p1);
-        pvline(p0, p2);
-        pvline(p0, p3);
+        this.pvline(p0, p1);
+        this.pvline(p0, p2);
+        this.pvline(p0, p3);
 
-        pvline(p1, p2);
-        pvline(p1, p3);
-        pvline(p2, p3);
+        this.pvline(p1, p2);
+        this.pvline(p1, p3);
+        this.pvline(p2, p3);
 
 
         // draw center point
         ellipse(this.center.x, this.center.y, 7, 7);
 
 
-        // draw base points at corners
-        for (const p of this.points) {
+        // draw base base_points at corners
+        for (const p of this.base_points) {
             ellipse(p.x, p.y, 7, 7);
         }
 
-        // draw points along top axis
+        // draw base_points along top axis
         for (const t of this.w_slices) {
             ellipse(t.x, t.y, 3, 3);
         }
 
-        // draw points along top axis
+        // draw base_points along top axis
         for (const t of this.h_slices) {
             ellipse(t.x, t.y, 3, 3);
         }
@@ -126,5 +118,9 @@ class Grid {
 
     }
 
-
+//util 
+ pvline(pv1, pv2) {
+    line(pv1.x, pv1.y, pv2.x, pv2.y);
 }
+
+}//class

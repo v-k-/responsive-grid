@@ -1,6 +1,4 @@
 let grid;
-let cnv;
-let gps;
 
 
 //DOM: centering canvas on screen 
@@ -9,12 +7,6 @@ function centerCanvas() {
     let y = (windowHeight - height) / 2;
     cnv.position(x, y);
 }
-
-//util 
-function pvline(pv1, pv2) {
-    line(pv1.x, pv1.y, pv2.x, pv2.y);
-}
-
 
 
 
@@ -27,15 +19,14 @@ function setup() {
 
 
     background(220);
-    grid.calc_points();
-    gps = new Gpoint(grid);
-    gp1 = gps.make_gpoint(100,100);
+    grid.calc_grid();
+
 }
 
 function draw() {
 
     background(220);
-    grid.calc_points();
+    grid.calc_grid();
     grid.doodle();
 
     //draw bg grid going to clas soon
@@ -48,7 +39,9 @@ function draw() {
     for (let i = 0; i < height; i += 10) {
         line(0, i, width, i);
     }
+
     noLoop();
+
 }
 
 
