@@ -1,5 +1,7 @@
 let grid;
 let cnv;
+let gps;
+
 
 //DOM: centering canvas on screen 
 function centerCanvas() {
@@ -26,6 +28,8 @@ function setup() {
 
     background(220);
     grid.calc_points();
+    gps = new Gpoint(grid);
+    gp1 = gps.make_gpoint(100,100);
 }
 
 function draw() {
