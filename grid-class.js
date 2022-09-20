@@ -44,6 +44,8 @@ class Grid {
         this.make_w_slices(this.coll_numb);
         this.make_h_slices(this.row_numb);
 
+        this.gp_update();
+
     }
 
     make_w_slices(n) {
@@ -70,7 +72,49 @@ class Grid {
 
     }
 
-    make_Gpoint(){}
+
+
+    make_Gpoint(x = 0, y = 0) {
+        for(const p of this.made_points){
+          if(p.original_x === x && p.original_y === y)
+            return p;}
+        
+
+        let dx = this.base_points[1].x - this.base_points[0].x;
+
+
+        let dy = this.base_points[2].y - this.base_points[0].y;
+
+        const rx = (x * 100 / dx) / 100;
+        const ry = (y * 100 / dy) / 100;
+        // console.log(`
+        // dx = ${dx}
+        // dy = ${dy}
+        // rx = ${rx}
+        // ry = ${ry}
+        // `)
+        const gp = new Gpoint(x, y, rx, ry);
+        this.made_points.push(gp);
+        this.calc_grid();
+        console.log(`made gpoint at ${x}, ${y} - yupiii`);
+        return gp;
+    }
+
+    gp_update() {
+
+        for (const gp of this.made_points) {
+            let dx = this.base_points[1].x - this.base_points[0].x;
+            let dy = this.base_points[2].y - this.base_points[0].y;
+            gp.gx = dx * gp.ratio_x;
+            gp.gy = dy * gp.ratio_y
+                //     console.log(`
+                // dx =  ${dx}
+                // dy =  ${dy}
+                // gx = ${gp.gx}
+                // gy = ${gp.gy}
+                // `)
+        }
+    }
 
 
     make_row() {}
@@ -113,14 +157,30 @@ class Grid {
         for (const t of this.h_slices) {
             ellipse(t.x, t.y, 3, 3);
         }
+        // draw base_points along top axis
+        fill(255, 20, 20);
+
+        for (const gp of this.made_points) {
+            // ellipse(gp.gx, gp.gy, 3, 3);
+        }
 
 
+        //draw bg grid 
+        strokeWeight(1);
+        stroke(0, 50);
+        for (let i = 0; i < width; i += 10) {
+            line(i, 0, i, height);
+        }
+
+        for (let i = 0; i < height; i += 10) {
+            line(0, i, width, i);
+        }
 
     }
 
-//util 
- pvline(pv1, pv2) {
-    line(pv1.x, pv1.y, pv2.x, pv2.y);
-}
+    //util 
+    pvline(pv1, pv2) {
+        line(pv1.x, pv1.y, pv2.x, pv2.y);
+    }
 
-}//class
+} //class

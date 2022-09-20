@@ -8,39 +8,48 @@ function centerCanvas() {
     cnv.position(x, y);
 }
 
-
+let ponto;
 
 function setup() {
     cnv = createCanvas(windowWidth, windowHeight);
     centerCanvas();
 
     //(coll_numb, row_numb, gutt_width, gutt_height, left_margin, margin_height )
-    grid = new Grid(12, 3, 10, 20, 17, 30);
+    grid = new Grid(12, 3, 10, 20, 0, 30);
 
 
     background(220);
     grid.calc_grid();
+    //grid.make_Gpoint(100,100);
+    ponto =  grid.make_Gpoint(200,200);
+
 
 }
 
 function draw() {
 
     background(220);
-    grid.calc_grid();
-    grid.doodle();
+    //grid.calc_grid();
+    // grid.doodle();
 
-    //draw bg grid going to clas soon
-    strokeWeight(1);
-    stroke(0, 50);
-    for (let i = 0; i < width; i += 10) {
-        line(i, 0, i, height);
-    }
+    fill(200, 120, 110);
 
-    for (let i = 0; i < height; i += 10) {
-        line(0, i, width, i);
-    }
+    // console.log(ponto);
+    // rect (ponto.getV()  .x, ponto.getV().y, 300, 220);
 
-    noLoop();
+
+
+
+    const pos = grid.make_Gpoint(width/2, height/2);
+
+    ellipse(pos.x, pos.y, 100, 100 );
+
+    const x = cos(radians(millis()))*130
+    const y = sin(radians(millis()))*130;
+    const r = grid.make_Gpoint(x, y);
+    ellipse(pos.x + r.x,   pos.y + r.y, 10,10);
+
+
 
 }
 
