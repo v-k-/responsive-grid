@@ -75,14 +75,7 @@ class Grid {
 
 
     make_Gpoint(x = 0, y = 0) {
-        for(const p of this.made_points){
-          if(p.original_x === x && p.original_y === y)
-            return p;}
-        
-
         let dx = this.base_points[1].x - this.base_points[0].x;
-
-
         let dy = this.base_points[2].y - this.base_points[0].y;
 
         const rx = (x * 100 / dx) / 100;
@@ -95,24 +88,23 @@ class Grid {
         // `)
         const gp = new Gpoint(x, y, rx, ry);
         this.made_points.push(gp);
-        this.calc_grid();
-        console.log(`made gpoint at ${x}, ${y} - yupiii`);
         return gp;
     }
 
     gp_update() {
+        let dx = this.base_points[1].x - this.base_points[0].x;
+        let dy = this.base_points[2].y - this.base_points[0].y;
 
         for (const gp of this.made_points) {
-            let dx = this.base_points[1].x - this.base_points[0].x;
-            let dy = this.base_points[2].y - this.base_points[0].y;
             gp.gx = dx * gp.ratio_x;
-            gp.gy = dy * gp.ratio_y
-                //     console.log(`
-                // dx =  ${dx}
-                // dy =  ${dy}
-                // gx = ${gp.gx}
-                // gy = ${gp.gy}
-                // `)
+            // gp.gy = dy * gp.ratio_y;
+            //gp.pv.set(gp.gx, gp.gy);
+            //     console.log(`
+            // dx =  ${dx}
+            // dy =  ${dy}
+            // gx = ${gp.gx}
+            // gy = ${gp.gy}
+            // `)
         }
     }
 

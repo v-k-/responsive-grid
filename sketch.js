@@ -8,7 +8,10 @@ function centerCanvas() {
     cnv.position(x, y);
 }
 
-let ponto;
+let ponto, pos, tpos, rd;
+let walkers = []
+let w;
+let stop = false;
 
 function setup() {
     cnv = createCanvas(windowWidth, windowHeight);
@@ -21,8 +24,18 @@ function setup() {
     background(220);
     grid.calc_grid();
     //grid.make_Gpoint(100,100);
-    ponto =  grid.make_Gpoint(200,200);
+    ponto = grid.make_Gpoint(200, 200);
+    pos = grid.make_Gpoint(width / 2, height / 2);
+    tpos = grid.make_Gpoint(25, 600);
+    rd = grid.make_Gpoint(323, 323);
 
+
+    for (let i = 0; i < 1; i++) {
+        const wp = grid.make_Gpoint(random(width / 2 - 100, width / 2 + 100), random(height / 2 - 100, height / 2 + 100));
+        // console.log(wpos);  
+        w = new walker(wp);
+        walkers.push(w);
+    }
 
 }
 
@@ -40,25 +53,44 @@ function draw() {
 
 
 
-    const pos = grid.make_Gpoint(width/2, height/2);
-
-    ellipse(pos.x, pos.y, 100, 100 );
-
-    const x = cos(radians(millis()))*130
-    const y = sin(radians(millis()))*130;
-    const r = grid.make_Gpoint(x, y);
-    ellipse(pos.x + r.x,   pos.y + r.y, 10,10);
 
 
+    ellipse(pos.gx, pos.gy, 100, 100);
+
+    const ex = cos(radians(millis() / 10)) * 130;
+    const ey = sin(radians(millis()) / 10) * 130;
+
+    ellipse(pos.gx + ex, pos.gy + ey, 10, 10);
+
+    text('I\'m adapting to  window size', tpos.gx, tpos.gy);
+    text('I\'m not', 25, 570);
+
+
+    rect(10, 10, rd.gx, rd.gy);
+    for (const w of walkers) {
+        w.doit();
+        if (stop) {
+            noLoop();
+        }
+    }
 
 }
 
+function mousePressed() {
+    redraw();
+    console.log(walkers[0].gp.gy);
+}
 
+function keyPressed() {
+    stop = !stop;
+}
 
 function windowResized() {
+    console.log('wresize');
     resizeCanvas(windowWidth, windowHeight);
     centerCanvas();
     background(220);
-    // background(220, 270, 80);
+    grid.calc_grid();
     redraw();
+    console.log(walkers[0].gp.gy);
 }
