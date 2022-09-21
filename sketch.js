@@ -1,6 +1,7 @@
+'use strict';
 let grid;
 
-
+let cnv;
 //DOM: centering canvas on screen 
 function centerCanvas() {
     let x = (windowWidth - width) / 2;
@@ -10,6 +11,7 @@ function centerCanvas() {
 
 let ponto, pos, tpos, rd;
 let fixed;
+let walk;
 
 function setup() {
     cnv = createCanvas(windowWidth, windowHeight);
@@ -26,6 +28,8 @@ function setup() {
     tpos = grid.make_Gpoint(25, 600);
     rd = grid.make_Gpoint(323, 323);
     fixed = createVector(width/2, height/2);
+    walk = grid.make_Gpoint(0, 450, this);
+    console.log(walk.this);
 
 }
 
@@ -48,6 +52,9 @@ function draw() {
 
     rect(10, 10, rd.gx, rd.gy);
     rect(grid.center.x, grid.center.y, rd.gx, rd.gy); 
+
+   	walk.update((millis()/5)%width, walk.gy, grid);
+    rect(walk.gx, walk.gy, 20,20);
 
     const h = grid.base_points[3].y - grid.base_points[1].y; 
     const x = grid.base_points[3].x - 85;

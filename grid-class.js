@@ -80,39 +80,33 @@ class Grid {
 
     make_Gpoint(x = 0, y = 0) {
         let dx = this.base_points[1].x - this.base_points[0].x;
-               //this.base_points[1].x - this.base_points[0].x;
         let dy = this.base_points[2].y - this.base_points[0].y;
-              // this.base_points[2].y - this.base_points[0].y;
 
         const rx = (x * 100 / this.grid_w) / 100;
         const ry = (y * 100 / this.grid_h) / 100;
 
-        // const rx = (x * 100 / dx) / 100;
-        // const ry = (y * 100 / dy) / 100;
-        
         // console.log(`
         // dx = ${dx}
         // dy = ${dy}
         // rx = ${rx}
         // ry = ${ry}
         // `)
-        const gp = new Gpoint(x, y, rx, ry);  
+        const gp = new Gpoint(x, y, rx, ry, this);
         this.made_points.push(gp);
         return gp;
+    }
+
+    gp_check_ratio() {
+
+        for (let gp of this.made_points) {
+            const rx = (gp.gx * 100 / this.grid_w) / 100;
+            const ry = (gp.gy * 100 / this.grid_h) / 100;
+            if (gp.ratio_x !== rx || gp.ratio_y !== ry) {
+                gp.ratio_x = rx;
+                gp.ratio_y = ry;
+            }
         }
-        // check_gp_ratio() {
-
-
-    //     for (let gp of this.made_points) {
-    //         const rx = (gp.gx * 100 / this.grid_w) / 100;
-    //         const ry = (gp.gy * 100 / this.grid_w) / 100;
-    //         if (gp.ratio_x !== rx || gp.ratio_y !== ry)
-    //             gp.ratio_x = rx;
-    //         gp.ratio_y = ry;
-
-
-    //     }
-    // }
+    }
     gp_update() {
         for (const gp of this.made_points) {
             gp.gx = this.grid_w * gp.ratio_x;
