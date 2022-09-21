@@ -9,9 +9,7 @@ function centerCanvas() {
 }
 
 let ponto, pos, tpos, rd;
-let walkers = []
-let w;
-let stop = false;
+let fixed;
 
 function setup() {
     cnv = createCanvas(windowWidth, windowHeight);
@@ -23,37 +21,22 @@ function setup() {
 
     background(220);
     grid.calc_grid();
-    //grid.make_Gpoint(100,100);
     ponto = grid.make_Gpoint(200, 200);
     pos = grid.make_Gpoint(width / 2, height / 2);
     tpos = grid.make_Gpoint(25, 600);
     rd = grid.make_Gpoint(323, 323);
-
-
-    for (let i = 0; i < 1; i++) {
-        const wp = grid.make_Gpoint(random(width / 2 - 100, width / 2 + 100), random(height / 2 - 100, height / 2 + 100));
-        // console.log(wpos);  
-        w = new walker(wp);
-        walkers.push(w);
-    }
+    fixed = createVector(width/2, height/2);
 
 }
 
 function draw() {
 
     background(220);
-    //grid.calc_grid();
     // grid.doodle();
 
-    fill(200, 120, 110);
-
-    // console.log(ponto);
-    // rect (ponto.getV()  .x, ponto.getV().y, 300, 220);
-
-
-
-
-
+    fill(0);
+    ellipse(fixed.x, fixed.y, 10, 10);
+    fill(200, 120, 110, 110);
 
     ellipse(pos.gx, pos.gy, 100, 100);
 
@@ -62,35 +45,31 @@ function draw() {
 
     ellipse(pos.gx + ex, pos.gy + ey, 10, 10);
 
-    text('I\'m adapting to  window size', tpos.gx, tpos.gy);
-    text('I\'m not', 25, 570);
-
 
     rect(10, 10, rd.gx, rd.gy);
-    for (const w of walkers) {
-        w.doit();
-        if (stop) {
-            noLoop();
-        }
-    }
+    rect(grid.center.x, grid.center.y, rd.gx, rd.gy); 
+
+    const h = grid.base_points[3].y - grid.base_points[1].y; 
+    const x = grid.base_points[3].x - 85;
+
+    rect(x, grid.base_points[1].y, 85, h); 
+
+   	
+    fill(20, 12, 11);
+    text('_a menu item?', x, grid.base_points[1].y +  40);
+    text('I\'m adapting to  window size', tpos.gx, tpos.gy);
+    text('I\'m not', 25, 570);
 
 }
 
 function mousePressed() {
-    redraw();
-    console.log(walkers[0].gp.gy);
+
 }
 
-function keyPressed() {
-    stop = !stop;
-}
 
 function windowResized() {
-    console.log('wresize');
     resizeCanvas(windowWidth, windowHeight);
     centerCanvas();
     background(220);
     grid.calc_grid();
-    redraw();
-    console.log(walkers[0].gp.gy);
 }

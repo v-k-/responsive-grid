@@ -97,7 +97,7 @@ class Grid {
 
         for (const gp of this.made_points) {
             gp.gx = dx * gp.ratio_x;
-            // gp.gy = dy * gp.ratio_y;
+            gp.gy = dy * gp.ratio_y;
             //gp.pv.set(gp.gx, gp.gy);
             //     console.log(`
             // dx =  ${dx}
@@ -173,6 +173,13 @@ class Grid {
     //util 
     pvline(pv1, pv2) {
         line(pv1.x, pv1.y, pv2.x, pv2.y);
+    }
+
+
+
+    check_gp_ratio(){
+      
+
     }
 
 } //class
