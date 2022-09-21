@@ -18,7 +18,9 @@ class Grid {
         this.w_slices = [];
         this.h_slices = [];
         this.made_points = []
-        this.ratio;
+        this.grid_w;
+        this.grid_h;
+        this.calc_grid();
 
     }
 
@@ -41,6 +43,8 @@ class Grid {
         const center = createVector(p2.x / 2 + p3.x / 2, p1.y / 2 + p3.y / 2);
         this.base_points = [p0, p1, p2, p3];
         this.center = center;
+        this.grid_w = this.base_points[1].x - this.base_points[0].x;
+        this.grid_h = this.base_points[2].y - this.base_points[0].y;
         this.make_w_slices(this.coll_numb);
         this.make_h_slices(this.row_numb);
 
@@ -49,7 +53,7 @@ class Grid {
     }
 
     make_w_slices(n) {
-        const coll_width = (this.base_points[1].x - this.base_points[0].x) / n;
+        const coll_width = this.grid_w / n;
         let acc = this.base_points[0].x;
         for (let i = 0; i < n; i++) {
             this.w_slices[i] = createVector(acc, this.base_points[0].y);
@@ -60,7 +64,7 @@ class Grid {
     }
 
     make_h_slices(n) {
-        const row_width = (this.base_points[2].y - this.base_points[0].y) / n;
+        const row_width = this.grid_h / n;
 
 
         let acc = this.base_points[0].y;
@@ -76,32 +80,46 @@ class Grid {
 
     make_Gpoint(x = 0, y = 0) {
         let dx = this.base_points[1].x - this.base_points[0].x;
+               //this.base_points[1].x - this.base_points[0].x;
         let dy = this.base_points[2].y - this.base_points[0].y;
+              // this.base_points[2].y - this.base_points[0].y;
 
-        const rx = (x * 100 / dx) / 100;
-        const ry = (y * 100 / dy) / 100;
+        const rx = (x * 100 / this.grid_w) / 100;
+        const ry = (y * 100 / this.grid_h) / 100;
+
+        // const rx = (x * 100 / dx) / 100;
+        // const ry = (y * 100 / dy) / 100;
+        
         // console.log(`
         // dx = ${dx}
         // dy = ${dy}
         // rx = ${rx}
         // ry = ${ry}
         // `)
-        const gp = new Gpoint(x, y, rx, ry);
+        const gp = new Gpoint(x, y, rx, ry);  
         this.made_points.push(gp);
         return gp;
-    }
+        }
+        // check_gp_ratio() {
 
+
+    //     for (let gp of this.made_points) {
+    //         const rx = (gp.gx * 100 / this.grid_w) / 100;
+    //         const ry = (gp.gy * 100 / this.grid_w) / 100;
+    //         if (gp.ratio_x !== rx || gp.ratio_y !== ry)
+    //             gp.ratio_x = rx;
+    //         gp.ratio_y = ry;
+
+
+    //     }
+    // }
     gp_update() {
-        let dx = this.base_points[1].x - this.base_points[0].x;
-        let dy = this.base_points[2].y - this.base_points[0].y;
-
         for (const gp of this.made_points) {
-            gp.gx = dx * gp.ratio_x;
-            gp.gy = dy * gp.ratio_y;
-            //gp.pv.set(gp.gx, gp.gy);
+            gp.gx = this.grid_w * gp.ratio_x;
+            gp.gy = this.grid_h * gp.ratio_y;
             //     console.log(`
             // dx =  ${dx}
-            // dy =  ${dy}
+            // dy =  ${dy}  
             // gx = ${gp.gx}
             // gy = ${gp.gy}
             // `)
@@ -177,9 +195,5 @@ class Grid {
 
 
 
-    check_gp_ratio(){
-      
-
-    }
 
 } //class

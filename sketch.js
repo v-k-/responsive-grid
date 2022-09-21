@@ -20,7 +20,7 @@ function setup() {
 
 
     background(220);
-    grid.calc_grid();
+    //grid.calc_grid();
     ponto = grid.make_Gpoint(200, 200);
     pos = grid.make_Gpoint(width / 2, height / 2);
     tpos = grid.make_Gpoint(25, 600);
@@ -56,9 +56,11 @@ function draw() {
 
    	
     fill(20, 12, 11);
-    text('_a menu item?', x, grid.base_points[1].y +  40);
-    text('I\'m adapting to  window size', tpos.gx, tpos.gy);
     text('I\'m not', 25, 570);
+    fill(200, 120, 110);
+    text('I\'m adapting to  window size', tpos.gx, tpos.gy);
+    fill(100, 70, 80);
+    text('_a menu item?', x, grid.base_points[1].y +  40);
 
 }
 
